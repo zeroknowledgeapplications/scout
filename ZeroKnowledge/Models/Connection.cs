@@ -27,7 +27,7 @@ namespace ZeroKnowledge
 
 		public void Resolve()
 		{
-			_hostname = Dns.GetHostEntryAsync (Destination.Address).ContinueWith<string>((t) => t.Result.HostName);
+			_hostname = Dns.GetHostEntryAsync (Destination.Address).ContinueWith<string>((t) => t.IsFaulted ? null : t.Result.HostName);
 		}
 	}
 }
