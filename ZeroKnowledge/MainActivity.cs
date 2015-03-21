@@ -29,10 +29,9 @@ namespace ZeroKnowledge
 			Button button = FindViewById<Button> (Resource.Id.myButton);
 			
 			button.Click += delegate {
-
+				ConnectionController.GetConnections();
 				ThreatClassifier t = new ThreatClassifier();
 				t.Classify(ConnectionController.GetConnections());
-
 				//button.Text = string.Format ("{0} clicks!", count++);
 
 				using(var s = new StreamReader(Assets.Open("ThreatView.html")))
