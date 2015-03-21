@@ -226,43 +226,43 @@
          y="2030.9669"></tspan></text>
 
     <!-- Bubbles -->
-    <circle fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
-        <animateMotion dur="3s" repeatCount="indefinite">
+    <circle class="bubble" id="bubble_0" fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
+        <animateMotion dur="3s" repeatCount="1">
             <mpath xlink:href="#line_0"/>
         </animateMotion>
     </circle>
-    <circle fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
-        <animateMotion dur="3s" repeatCount="indefinite">
+    <circle class="bubble" id="bubble_1" fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
+        <animateMotion dur="3s" repeatCount="1">
             <mpath xlink:href="#line_1"/>
         </animateMotion>
     </circle>
-    <circle fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
-        <animateMotion dur="3s" repeatCount="indefinite">
+    <circle class="bubble" id="bubble_2" fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
+        <animateMotion dur="3s" repeatCount="1">
             <mpath xlink:href="#line_2"/>
         </animateMotion>
     </circle>
-    <circle fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
-        <animateMotion dur="3s" repeatCount="indefinite">
+    <circle class="bubble" id="bubble_3" fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
+        <animateMotion dur="3s" repeatCount="1">
             <mpath xlink:href="#line_3"/>
         </animateMotion>
     </circle>
-    <circle fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
-        <animateMotion dur="3s" repeatCount="indefinite">
+    <circle class="bubble" id="bubble_4" fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
+        <animateMotion dur="3s" repeatCount="1">
             <mpath xlink:href="#line_4"/>
         </animateMotion>
     </circle>
-    <circle fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
-        <animateMotion dur="3s" repeatCount="indefinite">
+    <circle class="bubble" id="bubble_5" fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
+        <animateMotion dur="3s" repeatCount="1">
             <mpath xlink:href="#line_5" />
         </animateMotion>
     </circle>
-    <circle fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
-        <animateMotion dur="3s" repeatCount="indefinite">
+    <circle class="bubble" id="bubble_6" fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
+        <animateMotion dur="3s" repeatCount="1">
             <mpath xlink:href="#line_6"/>
         </animateMotion>
     </circle>
-    <circle fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
-        <animateMotion dur="3s" repeatCount="indefinite">
+    <circle class="bubble" id="bubble_7" fill="black" r="32" cy="0" cx="0" style="stroke-width:25;stroke-miterlimit:4;stroke-dasharray:none">
+        <animateMotion dur="3s" repeatCount="1">
             <mpath xlink:href="#line_7"/>
         </animateMotion>
     </circle>
@@ -270,35 +270,19 @@
 </svg>
         <script type="text/javascript">
             window.UI = (function(){
+
+                // Introduces random jitter in the connection animations
+                var bubbles = document.querySelectorAll('.bubble animateMotion');
+                Array.prototype.forEach.call(bubbles, function(bubble, i){
+                    bubble.addEventListener('end', function(){
+                        var duration = Math.floor(1 + Math.random()*10);
+                        this.setAttribute('dur', duration + 's');
+                        this.beginElement();
+                    });
+                });
+
+                // Return the API
                 return {
-                    /**
-                     * Emits a bubble that travels on a connection
-                     * @param  {int} the id [0-7] of the connection to emit on
-                     */
-                    emit: function(id) {
-                        // Make a coloured copy
-                        var bubble = document.getElementById('proto-bubble').cloneNode();
-                        bubble.setAttribute('fill', 'red');
-                        bubble.removeAttribute('id');
-
-                        // Determine line to travel
-                        var line = document.getElementById('line_' + id);
-
-                        // Add a motion to the bubble
-                        var animation = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
-                        animation.setAttribute('dur', '3s');
-                        animation.setAttribute('repeatCount', 'indefinite');
-                        var mpath = document.createElementNS('http://www.w3.org/2000/svg', 'mpath');
-                        mpath.setAttribute('xlink:href', '#line_'+id);
-                        animation.appendChild(mpath);
-                        bubble.appendChild(animation);
-
-                        // start animation
-                        document.getElementById('main_layer').appendChild(bubble);
-
-                        // pop the bubble when finished
-
-                    },
 
                     /**
                      * Enlarges or shrinks the width of the connection stream
@@ -307,11 +291,13 @@
                      */
                     setNumberofConnections: function(id, count){
                         var line = document.getElementById('line_' + id);
+                        var bubble = document.getElementById('bubble_' + id);
 
                         // Multiply connections by five, limit to 0-25 range
                         count = Math.min(50, Math.max((count*5), 0));
 
                         line.setAttribute('stroke-width', count);
+                        bubble.setAttribute('r', 32+count/2);
                     },
 
                     /**
