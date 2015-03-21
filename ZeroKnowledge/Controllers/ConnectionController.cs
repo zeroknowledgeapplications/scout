@@ -1,0 +1,39 @@
+﻿using System;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System.IO;
+
+namespace ZeroKnowledge
+{
+	public class ConnectionController
+	{
+		public static List<Connection> GetConnections()
+		{
+			Dictionary<string, Program> programs = new Dictionary<string, Program> ();
+
+			var plist = Process.GetProcesses ();
+
+			foreach (var p in plist) {
+				Debug.WriteLine (GetUser (p));
+			}
+
+			return null;
+		}
+
+		public static string GetUser(Process p)
+		{
+			var id = p.Id;
+			FileInfo f = new FileInfo (String.Format ("/proc/{0}/cgroup", id));
+			if (!f.Exists)
+				return null;
+
+			var reader = new StreamReader (f.OpenRead ());
+			var uid = reader.ReadLine ();//.Split ('/') [1];
+
+			return uid;
+		}
+	}
+}
+
