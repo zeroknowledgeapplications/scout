@@ -4,10 +4,11 @@ namespace ZeroKnowledge
 {
 	public class Program
 	{
-		string Identifier { get; set; }
-		string Name { get; set; }
+		public string Identifier { get; set; }
+		public string Name { get; set; }
+		public int ProcessId { get; set; }
 
-		int threatLevel { get; set; }
+		public int ThreatLevel { get; set; }
 	}
 }
 

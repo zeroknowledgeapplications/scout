@@ -1,4 +1,4 @@
 *.userprefs
 *.suo
-ZeroKnowledge.userprefs
-*.userprefs
+obj/
+bin/

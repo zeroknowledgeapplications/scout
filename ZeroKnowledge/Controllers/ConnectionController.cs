@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace ZeroKnowledge
 {
@@ -16,16 +17,43 @@ namespace ZeroKnowledge
 			var plist = Process.GetProcesses ();
 
 			foreach (var p in plist) {
-				Debug.WriteLine (GetUser (p));
+				var uid = GetUser (p.Id);
+
+				if (uid == null)
+					continue;
+
+				if (!programs.ContainsKey (uid))
+					programs.Add (uid, new Program (){ Identifier = uid, ProcessId = p.Id });
 			}
+
+			foreach(var p in plist)
+				foreach (var parts in GetConnectionData(p.Id)) {
+					Debug.WriteLine (String.Join(" ", parts));
+				}
 
 			return null;
 		}
 
-		public static string GetUser(Process p)
+		private static IEnumerable<string[]> GetConnectionData()
 		{
-			var id = p.Id;
-			FileInfo f = new FileInfo (String.Format ("/proc/{0}/cmdline", id));
+			/*
+			ProcessStartInfo pinfo = new ProcessStartInfo("/system/bin/netstat");
+			pinfo.RedirectStandardOutput = true;
+			pinfo.UseShellExecute = false;
+			var proc = Process.Start(pinfo);
+
+			proc.WaitForExit();
+			var lines = proc.StandardOutput;
+			while (!lines.EndOfStream) {
+				var line = lines.ReadLine ();
+				var parts = Regex.Split (line, @"\s+");
+				yield return parts;
+			}*/
+		}
+
+		public static string GetUser(int pid)
+		{
+			FileInfo f = new FileInfo (String.Format ("/proc/{0}/cmdline", pid));
 			if (!f.Exists)
 				return null;
 

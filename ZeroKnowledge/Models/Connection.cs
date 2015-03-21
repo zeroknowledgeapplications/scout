@@ -5,15 +5,13 @@ namespace ZeroKnowledge
 {
 	public class Connection
 	{
-		Program Program { get; set; }
-		IPEndPoint Source { get; set; }
-		IPEndPoint Destination { get; set; }
-		string Type { get; set; }
-		DateTime ConnectionStart { get; set; }
+		public Program Program { get; set; }
+		public IPEndPoint Source { get; set; }
+		public IPEndPoint Destination { get; set; }
+		public string Type { get; set; }
+		public DateTime ConnectionStart { get; set; }
 
-		string HostName { get; set; }
-
-
+		public string HostName { get; set; }
 	}
 }
 
