@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace ZeroKnowledge
 {
@@ -13,7 +14,8 @@ namespace ZeroKnowledge
 
 		public long Activity { get; set; }
 
-		public string HostName { get; set; }
+		public string HostName { get { return _hostname.Result; } }
+		private Task<string> _hostname;
 
 		public double ThreatLevel { get; set; }
 
@@ -21,6 +23,11 @@ namespace ZeroKnowledge
 		public override string ToString ()
 		{
 			return string.Format ("[Connection: Program={0}, Source={1}, Destination={2}, Type={3}, ConnectionStart={4}, Activity={5}, HostName={6}]", Program, Source, Destination, Type, ConnectionStart, Activity, HostName);
+		}
+
+		public void Resolve()
+		{
+			_hostname = Dns.GetHostEntryAsync (Destination.Address).ContinueWith<string>((t) => t.Result.HostName);
 		}
 	}
 }
