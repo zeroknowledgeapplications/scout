@@ -12,12 +12,15 @@ using Android.Webkit;
 
 namespace ZeroKnowledge
 {
-	[Activity (Label = "Login", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Label = "Login", MainLauncher = true, Icon = "@drawable/spy")]
 	public class LoginActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+
+			// Hide menu bar
+			this.RequestWindowFeature (WindowFeatures.NoTitle);
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Login);
