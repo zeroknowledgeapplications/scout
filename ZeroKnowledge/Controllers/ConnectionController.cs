@@ -12,6 +12,12 @@ namespace ZeroKnowledge
 {
 	public class ConnectionController
 	{
+
+		private static IPAddress[] _skipSourceIps = new IPAddress[] {
+			IPAddress.Parse("0.0.0.0"),
+			IPAddress.Parse("127.0.0.1")
+		};
+
 		public static List<Connection> GetConnections()
 		{
 			Dictionary<string, Program> programs = new Dictionary<string, Program> ();
@@ -35,7 +41,7 @@ namespace ZeroKnowledge
 					con.Program = p;
 					result.Add (con);
 				}
-
+				/*
 				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp6", p.ProcessId))) {
 					con.Type = "tcp";
 					con.Program = p;
@@ -50,7 +56,7 @@ namespace ZeroKnowledge
 					con.Type = "udp";
 					con.Program = p;
 					result.Add (con);
-				}
+				}*/
 			}
 
 			return result;
@@ -77,6 +83,13 @@ namespace ZeroKnowledge
 				var dest = ParseHexEndpoint (parts [3]);
 				var packets = long.Parse (parts [5].Split(':')[1], System.Globalization.NumberStyles.HexNumber);
 
+				if (_skipSourceIps.Contains(dest.Address)) {
+					continue;
+				}
+
+				//Debug.WriteLine ("D:"+ dest);
+				//Debug.WriteLine ("S:"+ source);
+
 				var c = new Connection ();
 				c.Source = source;
 				c.Destination = dest;
@@ -95,8 +108,7 @@ namespace ZeroKnowledge
 			{
 				ippart = SwapHexEndianness (ippart);
 			}
-
-
+				
 			IPAddress ip;
 			if (ippart.Length == 8)
 				ip = new IPAddress (uint.Parse (ippart, System.Globalization.NumberStyles.HexNumber));
