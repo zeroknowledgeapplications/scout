@@ -6,6 +6,8 @@ namespace ZeroKnowledge
 	{
 		string Identifier { get; set; }
 		string Name { get; set; }
+
+		int threatLevel { get; set; }
 	}
 }
 

@@ -50,6 +50,7 @@
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\Program.cs" />
     <Compile Include="Controllers\ConnectionController.cs" />
+    <Compile Include="Models\Organization.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
