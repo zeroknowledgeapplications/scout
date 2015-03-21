@@ -51,6 +51,7 @@
     <Compile Include="Models\Program.cs" />
     <Compile Include="Controllers\ConnectionController.cs" />
     <Compile Include="Models\Organization.cs" />
+    <Compile Include="Models\Device.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
