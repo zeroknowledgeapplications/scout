@@ -5,6 +5,7 @@ using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using Android.Content.PM;
 
 namespace ZeroKnowledge
 {
@@ -12,6 +13,12 @@ namespace ZeroKnowledge
 	{
 		Dictionary<int, string> _processUserMapping = new Dictionary<int, string>();
 		Dictionary<string, Program> _programIdentifierMapping = new Dictionary<string, Program>();
+		PackageManager _manager;
+
+		public ProcessOverview(PackageManager manager)
+		{
+			_manager = manager;
+		}
 
 		public static string GetIdentifier(int pid)
 		{
@@ -61,10 +68,20 @@ namespace ZeroKnowledge
 					continue;
 
 				if (!_programIdentifierMapping.ContainsKey (uid)) {
-					var program = new Program (){ Identifier = uid, ProcessId = p.Id };
+					var program = new Program (){ Identifier = uid, ProcessId = p.Id, Name = NameFromIdentifier(uid) };
 					program.UserId = GetUserId (_processUserMapping [p.Id]);
 					_programIdentifierMapping.Add (uid, program);
 				}
+			}
+		}
+
+		public string NameFromIdentifier(string identifier)
+		{
+			try {
+				var info = _manager.GetApplicationInfo (identifier, PackageInfoFlags.MetaData);
+				return info.Name;
+			} catch (Exception e) {
+				return identifier;
 			}
 		}
 
@@ -79,12 +96,13 @@ namespace ZeroKnowledge
 		public int GetUserId(string user)
 		{
 			if (!user.Contains ("u0_a"))
-				return 1;
+				return 1; //map unknown to root
 
 			var id = int.Parse (user.Substring (4)) + 10000;
 			return id;
 		}
 
+		// id binary is badly implemented on cyanogenmod, can't use this
 		/*public int GetUserId(string user)
 		{
 			throw new Exception ();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 
 using Android.App;
 using Android.Content;
@@ -28,16 +27,11 @@ namespace ZeroKnowledge
 			// Get our button from the layout resource,
 			// and attach an event to it
 			Button button = FindViewById<Button> (Resource.Id.myButton);
-			
+			var manager = ApplicationContext.PackageManager;
+
 			button.Click += delegate {
-
-				List<Connection> connections = ConnectionController.GetConnections(true);
-
 				ThreatClassifier t = new ThreatClassifier();
-				t.Classify(connections);
-
-				List<Organization> organizations = OrganizationController.CreateFromConnections(connections);
-
+				t.Classify(ConnectionController.GetConnections(manager));
 				//button.Text = string.Format ("{0} clicks!", count++);
 
 				using(var s = new StreamReader(Assets.Open("ThreatView.html")))
