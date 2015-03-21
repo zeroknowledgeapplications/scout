@@ -29,20 +29,30 @@ namespace ZeroKnowledge
 			// Get our button from the layout resource,
 			// and attach an event to it
 			Button button = FindViewById<Button> (Resource.Id.myButton);
-			
+			var manager = ApplicationContext.PackageManager;
+
 			button.Click += delegate {
 
-				List<Connection> connections = ConnectionController.GetConnections(true);
+				List<Connection> connections = ConnectionController.GetConnections (manager);
 
-				ThreatClassifier t = new ThreatClassifier();
-				t.Classify(connections);
+				ThreatClassifier t = new ThreatClassifier ();
+				t.Classify (connections);
 
-				List<Organization> organizations = OrganizationController.CreateFromConnections(connections);
+				List<Organization> organizations = OrganizationController.CreateFromConnections (connections);
+
+				//button.Text = string.Format ("{0} clicks!", count++);
+				foreach (Organization organization in organizations) {
+					Console.WriteLine (organization);
+				}
+				foreach (Connection connection in connections) {
+					Console.WriteLine (string.Format ("Connection = {0} Threat = {1}",
+						connection, connection.ThreatLevel
+					));
+				}
 
 				// Load page in WebView
-				web.LoadUrl("file:///android_asset/ThreatView.html");
+				web.LoadUrl ("file:///android_asset/ThreatView.html");
 			};
-
 		}
 	}
 }

@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using System.Net.Sockets;
 using System.Net;
 
+using Android.Content.PM;
+
 namespace ZeroKnowledge
 {
 	public class ConnectionController
@@ -19,13 +21,13 @@ namespace ZeroKnowledge
 			IPAddress.Parse("::")
 		};
 
-		public static List<Connection> GetConnections(bool resolveDNS = false)
+		public static List<Connection> GetConnections(PackageManager manager)
 		{
 
 			var result = new List<Connection> ();
 
 			var links = new Dictionary<string, Program> ();
-			ProcessOverview p = new ProcessOverview();
+			ProcessOverview p = new ProcessOverview(manager);
 			p.Update();
 
 			result.AddRange (ParseNetFile ("/proc/net/tcp", "tcp", p));
@@ -33,8 +35,7 @@ namespace ZeroKnowledge
 			result.AddRange (ParseNetFile ("/proc/net/udp", "udp", p));
 			result.AddRange (ParseNetFile ("/proc/net/udp6", "udp", p));
 
-			if (resolveDNS)
-				result.ForEach ((c) => c.Resolve ());
+			result.ForEach ((c) => c.Resolve ());
 
 			return result;
 		}

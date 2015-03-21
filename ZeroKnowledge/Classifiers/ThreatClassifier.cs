@@ -25,10 +25,6 @@ namespace ZeroKnowledge
 			foreach (Connection connection in connections) {
 				var inputs = _predictors.Select ((p) => p (connection)).ToArray();
 				connection.ThreatLevel = perceptron.Predict (inputs);
-
-				Console.WriteLine(string.Format("Connection = {0} Threat = {1}",
-					connection, connection.ThreatLevel
-				));
 			}
 		}
 	}
