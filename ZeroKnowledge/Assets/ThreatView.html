@@ -269,61 +269,71 @@
   </g>
 </svg>
 <script type="text/javascript">
-    window.UI = (function(){
-        var _randomDuration = function(animation) {
-            animation.endElement();
-            var duration = Math.floor(1+(Math.random()*10));
-            animation.setAttribute('dur', duration + 's');
-            animation.beginElement();
-            setTimeout(_randomDuration, duration*1000, animation);
-        };
+    document.addEventListener('DOMContentLoaded',function(){
 
-        var bubbles = document.querySelectorAll('.bubble animateMotion');
-        Array.prototype.forEach.call(bubbles, function(bubble, i){
-            _randomDuration(bubble);
-        });
+        window.UI = (function(){
+            var _randomDuration = function(animation) {
+                var duration = Math.floor(1+(Math.random()*10));
+                console.log(duration);
+                animation.setAttribute('dur', duration + 's');
+                animation.beginElement();
+                setTimeout(_randomDuration, duration*1000, animation);
+            };
 
-        return {
-            setNumberofConnections: function(id, count){
-                var line = document.getElementById('line_' + id);
-                var bubble = document.getElementById('bubble_' + id);
+            var bubbles = document.getElementsByTagName('animateMotion');
+            Array.prototype.forEach.call(bubbles, function(bubble, i){
+                _randomDuration(bubble);
+            });
 
-                /* Multiply connections by five, limit to 0-25 range */
-                count = Math.min(50, Math.max((count*5), 0));
+            return {
+                setNumberofConnections: function(id, count){
+                    var line = document.getElementById('line_' + id);
+                    var bubble = document.getElementById('bubble_' + id);
 
-                line.setAttribute('stroke-width', count);
-                bubble.setAttribute('r', 32+count/2);
-            },
+                    /* Multiply connections by five, limit to 0-25 range */
+                    count = Math.min(50, Math.max((count*5), 0));
 
-            /**
-             * Sets the label of a connection
-             * @param {id}     the id [0-7] of the connection to change 
-             * @param {string} the label to use, use an empty label to clear the text
-             */
-            setLabel: function(id, label){
-                var text = document.getElementById('text_' + id);
-                text.innerHTML = label;
-            },
+                    line.setAttribute('stroke-width', count);
+                    bubble.setAttribute('r', 32+count/2);
+                },
 
-            /**
-             * Colour a connection according to its threat level
-             * @param {int}   the id [0-7] of the connection to change 
-             * @param {float} an indicator of the threat level [0-1]
-             */
-            setThreatLevel: function(id, level){
-                var line = document.getElementById('line_' + id);
-                var organisation = document.getElementById('organisation_' + id);
+                /**
+                 * Sets the label of a connection
+                 * @param {id}     the id [0-7] of the connection to change 
+                 * @param {string} the label to use, use an empty label to clear the text
+                 */
+                setLabel: function(id, label){
+                    var text = document.getElementById('text_' + id);
+                    text.innerHTML = label;
+                },
 
-                /* Calculate threat level */
-                R = Math.floor(255 * level);
-                G = Math.floor(255 * (1-level)); 
-                rgb = 'rgb('+R+','+G+',0)';
+                /**
+                 * Colour a connection according to its threat level
+                 * @param {int}   the id [0-7] of the connection to change 
+                 * @param {float} an indicator of the threat level [0-1]
+                 */
+                setThreatLevel: function(id, level){
+                    var line = document.getElementById('line_' + id);
+                    var organisation = document.getElementById('organisation_' + id);
 
-                organisation.setAttribute('fill', rgb);
-                line.setAttribute('stroke', rgb);
-            }
-        };
-    })();
+                    /* Calculate threat level */
+                    R = Math.floor(255 * level);
+                    G = Math.floor(255 * (1-level)); 
+                    rgb = 'rgb('+R+','+G+',0)';
+
+                    organisation.setAttribute('fill', rgb);
+                    line.setAttribute('stroke', rgb);
+                }
+            };
+        })();
+
+        setTimeout(function(){
+            window.UI.setThreatLevel(2, 0.5);
+            window.UI.setThreatLevel(4, 0.75);
+            window.UI.setThreatLevel(6, 0.33);
+        }, 2000);
+
+    });
 </script>
         
     </body>
