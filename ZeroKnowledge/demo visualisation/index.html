@@ -95,45 +95,45 @@
        inkscape:connector-curvature="0" />
     <!-- Lines -->
     <path
-       style="fill:none;fill-rule:evenodd;stroke-width:25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 148.57143,562.36221 808.57143,0"
        id="line-2"
-       inkscape:connector-curvature="0" stroke="black" />
+       inkscape:connector-curvature="0" stroke="black" stroke-width=25 />
     <path
-       style="fill:none;fill-rule:evenodd;stroke-width:25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -961.71429,562.36221 808.57143,0"
        id="line-6"
-       inkscape:connector-curvature="0" stroke="black" />
+       inkscape:connector-curvature="0" stroke="black" stroke-width=25 />
     <path
-       style="fill:none;fill-rule:evenodd;stroke-width:25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -0.416515,-477.6378 0,808.57143"
        id="line-0"
-       inkscape:connector-curvature="0" stroke="black" />
+       inkscape:connector-curvature="0" stroke="black" stroke-width=25 />
     <path
-       style="fill:none;fill-rule:evenodd;stroke-width:25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -0.416515,788.07649 0,808.57141"
        id="line-4"
-       inkscape:connector-curvature="0" stroke="black" />
+       inkscape:connector-curvature="0" stroke="black" stroke-width=25 />
     <path
-       style="fill:none;fill-rule:evenodd;stroke-width:25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 206.87824,334.61821 778.62457,-237.12811"
        id="line-1"
-       inkscape:connector-curvature="0"  stroke="black" />
+       inkscape:connector-curvature="0"  stroke="black" stroke-width=25 />
     <path
-       style="fill:none;fill-rule:evenodd;stroke-width:25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 778.62452,1305.7074 206.87824,733.96109"
        id="line-3"
-       inkscape:connector-curvature="0"  stroke="black" />
+       inkscape:connector-curvature="0"  stroke="black" stroke-width=25 />
     <path
-       style="fill:none;fill-rule:evenodd;stroke-width:25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M -150.30968,733.96109 -722.05605,1305.7075"
        id="line-5"
-       inkscape:connector-curvature="0"  stroke="black" />
+       inkscape:connector-curvature="0"  stroke="black" stroke-width=25 />
     <path
-       style="fill:none;fill-rule:evenodd;stroke-width:25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -722.05603,-237.12815 571.74635,571.74636"
        id="line-7"
-       inkscape:connector-curvature="0"  stroke="black" />
+       inkscape:connector-curvature="0"  stroke="black" stroke-width=25 />
   </g>
 </svg>
         <script type="text/javascript">
@@ -141,7 +141,14 @@
 
             window.UI = (function(){
                 return {
-                    setNumberofConnections: function(id, count){},
+                    setNumberofConnections: function(id, count){
+                        var line = document.getElementById('line-' + id);
+
+                        // Multiply connections by five, limit to 0-25 range
+                        count = Math.min(50, Math.max((count*5), 0));
+
+                        line.setAttribute('stroke-width', count);
+                    },
                     setLabel: function(id, label){},
 
                     setThreatLevel: function(id, level){
