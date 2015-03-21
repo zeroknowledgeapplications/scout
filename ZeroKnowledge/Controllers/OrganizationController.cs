@@ -15,7 +15,7 @@ namespace ZeroKnowledge
 			Connections = connections;
 		}
 
-		public static List<Organization> CreateFromConnections() {
+		public static List<Organization> CreateFromConnections(List<Connection> connections) {
 			// TODO: group here!
 			return new List<Organization>();
 
