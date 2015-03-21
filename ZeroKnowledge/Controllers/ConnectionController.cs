@@ -25,12 +25,16 @@ namespace ZeroKnowledge
 		public static string GetUser(Process p)
 		{
 			var id = p.Id;
-			FileInfo f = new FileInfo (String.Format ("/proc/{0}/cgroup", id));
+			FileInfo f = new FileInfo (String.Format ("/proc/{0}/cmdline", id));
 			if (!f.Exists)
 				return null;
 
 			var reader = new StreamReader (f.OpenRead ());
 			var uid = reader.ReadLine ();//.Split ('/') [1];
+
+			// Filter system processes
+			if (uid != null && uid.Contains ("/"))
+				uid = null;
 
 			return uid;
 		}
