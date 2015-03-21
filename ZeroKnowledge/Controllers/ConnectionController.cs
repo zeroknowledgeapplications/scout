@@ -19,7 +19,7 @@ namespace ZeroKnowledge
 			IPAddress.Parse("::")
 		};
 
-		public static List<Connection> GetConnections()
+		public static List<Connection> GetConnections(bool resolveDNS = false)
 		{
 			Dictionary<string, Program> programs = new Dictionary<string, Program> ();
 
@@ -58,6 +58,9 @@ namespace ZeroKnowledge
 					result.Add (con);
 				}
 			}
+
+			if (resolveDNS)
+				result.ForEach ((c) => c.Resolve ());
 
 			return result;
 		}

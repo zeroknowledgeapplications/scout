@@ -31,7 +31,7 @@ namespace ZeroKnowledge
 			button.Click += delegate {
 
 				ThreatClassifier t = new ThreatClassifier();
-				t.Classify(ConnectionController.GetConnections());
+				t.Classify(ConnectionController.GetConnections(true));
 
 				//button.Text = string.Format ("{0} clicks!", count++);
 
