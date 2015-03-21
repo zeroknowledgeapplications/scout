@@ -15,6 +15,9 @@ namespace ZeroKnowledge
 
 		public string HostName { get; set; }
 
+		public double ThreatLevel { get; set; }
+
+
 		public override string ToString ()
 		{
 			return string.Format ("[Connection: Program={0}, Source={1}, Destination={2}, Type={3}, ConnectionStart={4}, Activity={5}, HostName={6}]", Program, Source, Destination, Type, ConnectionStart, Activity, HostName);
