@@ -14,7 +14,7 @@ namespace ZeroKnowledge
 
 		public long Activity { get; set; }
 
-		public string HostName { get { return _hostname.Result; } }
+		public string HostName { get { return _hostname == null ? null : _hostname.Result; } }
 		private Task<string> _hostname;
 
 		public double ThreatLevel { get; set; }
