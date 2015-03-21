@@ -26,33 +26,25 @@ namespace ZeroKnowledge
 			web.Settings.JavaScriptEnabled = true;
 			web.SetWebChromeClient (new WebChromeClient ());
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button> (Resource.Id.myButton);
+			// Start main detection process
 			var manager = ApplicationContext.PackageManager;
+			List<Connection> connections = ConnectionController.GetConnections (manager);
+			ThreatClassifier t = new ThreatClassifier ();
+			t.Classify (connections);
+			List<Organization> organizations = OrganizationController.CreateFromConnections (connections);
 
-			button.Click += delegate {
+			//DEBUG
+			foreach (Organization organization in organizations) {
+				Console.WriteLine (organization);
+			}
+			foreach (Connection connection in connections) {
+				Console.WriteLine (string.Format ("Connection = {0} Threat = {1}",
+					connection, connection.ThreatLevel
+				));
+			}
 
-				List<Connection> connections = ConnectionController.GetConnections (manager);
-
-				ThreatClassifier t = new ThreatClassifier ();
-				t.Classify (connections);
-
-				List<Organization> organizations = OrganizationController.CreateFromConnections (connections);
-
-				//button.Text = string.Format ("{0} clicks!", count++);
-				foreach (Organization organization in organizations) {
-					Console.WriteLine (organization);
-				}
-				foreach (Connection connection in connections) {
-					Console.WriteLine (string.Format ("Connection = {0} Threat = {1}",
-						connection, connection.ThreatLevel
-					));
-				}
-
-				// Load page in WebView
-				web.LoadUrl ("file:///android_asset/ThreatView.html");
-			};
+			// Load main UI in WebView
+			web.LoadUrl ("file:///android_asset/ThreatView.html");
 		}
 	}
 }

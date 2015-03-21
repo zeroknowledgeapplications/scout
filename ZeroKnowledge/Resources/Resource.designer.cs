@@ -67,10 +67,7 @@ namespace ZeroKnowledge
 			public const int login = 2131034112;
 			
 			// aapt resource value: 0x7f050002
-			public const int myButton = 2131034114;
-			
-			// aapt resource value: 0x7f050003
-			public const int threatView = 2131034115;
+			public const int threatView = 2131034114;
 			
 			static Id()
 			{
