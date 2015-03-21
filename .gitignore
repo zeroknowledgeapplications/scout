@@ -1,3 +1,4 @@
 *.userprefs
 *.suo
 obj/
+bin/
