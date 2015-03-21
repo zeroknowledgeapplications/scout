@@ -30,23 +30,23 @@ namespace ZeroKnowledge
 			}
 
 			foreach (var p in plist) {
-				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp", pid))) {
+				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp", p.Id))) {
 					con.Type = "tcp";
 					con.Program = p;
 					result.Add (con);
 				}
 
-				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp6", pid))) {
+				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp6", p.Id))) {
 					con.Type = "tcp";
 					con.Program = p;
 					result.Add (con);
 				}
-				foreach (var con in ParseNetFile(String.Format("/proc/{0}/net/udp", pid))){
+				foreach (var con in ParseNetFile(String.Format("/proc/{0}/net/udp", p.Id))){
 					con.Type = "udp";
 					con.Program = p;
 					result.Add (con);
 				}
-				foreach (var con in ParseNetFile(String.Format("/proc/{0}/net/udp6", pid))){
+				foreach (var con in ParseNetFile(String.Format("/proc/{0}/net/udp6", p.Id))){
 					con.Type = "udp";
 					con.Program = p;
 					result.Add (con);

@@ -12,8 +12,6 @@ namespace ZeroKnowledge
 	[Activity (Label = "ZeroKnowledge", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity
 	{
-		int count = 1;
-
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
