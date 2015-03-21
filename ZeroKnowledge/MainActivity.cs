@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 using Android.App;
 using Android.Content;
@@ -30,9 +31,13 @@ namespace ZeroKnowledge
 			Button button = FindViewById<Button> (Resource.Id.myButton);
 			
 			button.Click += delegate {
-				ConnectionController.GetConnections();
+
+				List<Connection> connections = ConnectionController.GetConnections(true);
+
 				ThreatClassifier t = new ThreatClassifier();
-				t.Classify(ConnectionController.GetConnections());
+				t.Classify(connections);
+
+				List<Organization> organizations = OrganizationController.CreateFromConnections(connections);
 
 				// Load page in WebView
 				web.LoadUrl("file:///android_asset/ThreatView.html");

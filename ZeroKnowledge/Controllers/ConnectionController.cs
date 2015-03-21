@@ -18,11 +18,9 @@ namespace ZeroKnowledge
 			IPAddress.Parse("127.0.0.1"),
 			IPAddress.Parse("::")
 		};
-			
-		public static List<Connection> GetConnections()
-		{
-			Dictionary<string, Program> programs = new Dictionary<string, Program> ();
 
+		public static List<Connection> GetConnections(bool resolveDNS = false)
+		{
 
 			var result = new List<Connection> ();
 
@@ -34,6 +32,9 @@ namespace ZeroKnowledge
 			result.AddRange (ParseNetFile ("/proc/net/tcp6", "tcp", p));
 			result.AddRange (ParseNetFile ("/proc/net/udp", "udp", p));
 			result.AddRange (ParseNetFile ("/proc/net/udp6", "udp", p));
+
+			if (resolveDNS)
+				result.ForEach ((c) => c.Resolve ());
 
 			return result;
 		}
@@ -88,13 +89,19 @@ namespace ZeroKnowledge
 			else {
 				// remove IPv6 that is just an extended IPv4. 
 				if (ippart.Substring (0, 24) == "0000000000000000FFFF0000") {
-					ippart = "00000000000000000000000000000000";
-				}
+					ip = new IPAddress (uint.Parse (ippart.Substring (24), System.Globalization.NumberStyles.HexNumber));
+				} else {
 
-				string representation = "";
-				for (int i = 0; i < 8; i++)
-					representation += ippart.Substring (i * 4, 4) + ":";
-				ip = IPAddress.Parse(representation.Substring(0, representation.Length - 1));
+					string representation = "";
+					for (int i = 0; i < 4; i++) {
+						var chunk = ippart.Substring (i * 8, 8);
+						int u = Convert.ToInt32 (chunk, 16);
+						u = IPAddress.HostToNetworkOrder (u);
+						chunk = String.Format ("{0:X8}", u);
+						representation += chunk.Substring (0, 4) + ":" + chunk.Substring (4, 4) + ":";
+					}
+					ip = IPAddress.Parse (representation.Substring (0, representation.Length - 1));
+				}
 			}
 
 			var sourceport = int.Parse (description.Split (':') [1], System.Globalization.NumberStyles.HexNumber);
