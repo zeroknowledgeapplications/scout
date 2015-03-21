@@ -16,7 +16,11 @@ namespace ZeroKnowledge
 			var plist = Process.GetProcesses ();
 
 			foreach (var p in plist) {
-				var uid = GetUser (p);
+				var uid = GetUser (p.Id);
+
+				if (uid == null)
+					continue;
+
 				if (!programs.ContainsKey (uid))
 					programs.Add (uid, new Program (){ Identifier = uid, });
 			}
@@ -27,10 +31,9 @@ namespace ZeroKnowledge
 			return null;
 		}
 
-		public static string GetUser(Process p)
+		public static string GetUser(int pid)
 		{
-			var id = p.Id;
-			FileInfo f = new FileInfo (String.Format ("/proc/{0}/cmdline", id));
+			FileInfo f = new FileInfo (String.Format ("/proc/{0}/cmdline", pid));
 			if (!f.Exists)
 				return null;
 
