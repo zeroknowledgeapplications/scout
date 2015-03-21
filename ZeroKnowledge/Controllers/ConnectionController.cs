@@ -88,14 +88,20 @@ namespace ZeroKnowledge
 				ip = new IPAddress (uint.Parse (ippart, System.Globalization.NumberStyles.HexNumber));
 			else {
 				// remove IPv6 that is just an extended IPv4. 
-				//if (ippart.Substring (0, 24) == "0000000000000000FFFF0000") {
-				///	ippart = "00000000000000000000000000000000";
-				//}
+				if (ippart.Substring (0, 24) == "0000000000000000FFFF0000") {
+					ip = new IPAddress (uint.Parse (ippart.Substring (24), System.Globalization.NumberStyles.HexNumber));
+				} else {
 
-				string representation = "";
-				for (int i = 0; i < 8; i++)
-					representation += ippart.Substring (i * 4, 4) + ":";
-				ip = IPAddress.Parse(representation.Substring(0, representation.Length - 1));
+					string representation = "";
+					for (int i = 0; i < 4; i++) {
+						var chunk = ippart.Substring (i * 8, 8);
+						int u = Convert.ToInt32 (chunk, 16);
+						u = IPAddress.HostToNetworkOrder (u);
+						chunk = String.Format ("{0:X8}", u);
+						representation += chunk.Substring (0, 4) + ":" + chunk.Substring (4, 4) + ":";
+					}
+					ip = IPAddress.Parse (representation.Substring (0, representation.Length - 1));
+				}
 			}
 
 			var sourceport = int.Parse (description.Split (':') [1], System.Globalization.NumberStyles.HexNumber);
