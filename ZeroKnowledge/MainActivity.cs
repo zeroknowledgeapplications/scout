@@ -12,7 +12,7 @@ using Android.Webkit;
 
 namespace ZeroKnowledge
 {
-	[Activity (Label = "ZeroKnowledge", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Label = "ZeroKnowledge", MainLauncher = false, Icon = "@drawable/spy")]
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
@@ -28,35 +28,27 @@ namespace ZeroKnowledge
 			// Load page in WebView
 			web.LoadUrl ("file:///android_asset/ThreatView.html");
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button> (Resource.Id.myButton);
+			// Start main detection process
 			var manager = ApplicationContext.PackageManager;
+			List<Connection> connections = ConnectionController.GetConnections (manager);
+			ThreatClassifier t = new ThreatClassifier ();
+			t.Classify (connections);
+			List<Organization> organizations = OrganizationController.CreateFromConnections (connections);
 
-			button.Click += delegate {
+			int i = 0;
+			foreach (Organization organization in organizations) {
+				if(i > 7)
+					break;
 
-				List<Connection> connections = ConnectionController.GetConnections (manager);
+				SetLabel(i, organization.Name);
+				SetThreatLevel(i, Math.Min(1.0, organization.ThreatLevel / 5));
+				SetNumberOfConnections(i, organization.Connections.Count);
 
-				ThreatClassifier t = new ThreatClassifier ();
-				t.Classify (connections);
+				i++;
+			}
 
-				List<Organization> organizations = OrganizationController.CreateFromConnections (connections);
-
-				int i = 0;
-				foreach (Organization organization in organizations) {
-					if(i > 7)
-						break;
-
-					SetLabel(i, organization.Name);
-					SetThreatLevel(i, Math.Min(1.0, organization.ThreatLevel / 5));
-					SetNumberOfConnections(i, organization.Connections.Count);
-
-					i++;
-				}
-
-				for(;i <= 7; i++)
-					SetLabel(i, "");
-			};
+			for(;i <= 7; i++)
+				SetLabel(i, "");
 		}
 
 		private void SetLabel(int id, string label)
