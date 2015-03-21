@@ -32,6 +32,16 @@ namespace ZeroKnowledge
 
 			button.Click += delegate {
 
+				//button.Text = string.Format ("{0} clicks!", count++);
+				foreach (Organization organization in organizations) {
+					Console.WriteLine(organization);
+				}
+				foreach(Connection connection in connections) {
+					Console.WriteLine(string.Format("Connection = {0} Threat = {1}",
+						connection, connection.ThreatLevel
+					));
+				}
+
 				// Load page in WebView
 				web.LoadUrl("file:///android_asset/ThreatView.html");
 			};
