@@ -271,14 +271,22 @@
         <script type="text/javascript">
             window.UI = (function(){
 
+                /**
+                 * Sets a random duration for an animation and restarts it
+                 * @param  {animationMotion}
+                 */
+                var _randomDuration = function(animation) {
+                    animation.endElement();
+                    var duration = Math.floor(1+(Math.random()*10));
+                    animation.setAttribute('dur', duration + 's');
+                    animation.beginElement();
+                    setTimeout(_randomDuration, duration*1000, animation);
+                }
+
                 // Introduces random jitter in the connection animations
                 var bubbles = document.querySelectorAll('.bubble animateMotion');
                 Array.prototype.forEach.call(bubbles, function(bubble, i){
-                    bubble.addEventListener('end', function(){
-                        var duration = Math.floor(1 + Math.random()*10);
-                        this.setAttribute('dur', duration + 's');
-                        this.beginElement();
-                    });
+                    _randomDuration(bubble);
                 });
 
                 // Return the API
