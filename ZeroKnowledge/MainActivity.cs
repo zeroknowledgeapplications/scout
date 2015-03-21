@@ -24,6 +24,7 @@ namespace ZeroKnowledge
 
 			WebView web = FindViewById<WebView> (Resource.Id.threatView);
 			web.Settings.JavaScriptEnabled = true;
+			web.SetWebChromeClient (new WebChromeClient ());
 
 			// Get our button from the layout resource,
 			// and attach an event to it
@@ -48,8 +49,8 @@ namespace ZeroKnowledge
 					));
 				}
 
-				using(var s = new StreamReader(Assets.Open("ThreatView.html")))
-					web.LoadData(s.ReadToEnd(), "text/html", "utf8");
+				// Load page in WebView
+				web.LoadUrl("file:///android_asset/ThreatView.html");
 			};
 
 		}

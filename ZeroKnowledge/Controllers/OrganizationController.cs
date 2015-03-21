@@ -9,9 +9,14 @@ namespace ZeroKnowledge
 	
 		public static List<Organization> CreateFromConnections(List<Connection> connections) {
 
+			var unknownProgram = new Program (){ Identifier = "Unknown" };
+
+			connections.ForEach (c => {
+				if(c.Program == null) c.Program = unknownProgram;
+			});
+
 			return connections.GroupBy ((c) => c.Program).Select ((g) => new Organization() { 
 				Connections = g.ToList(), 
-				ThreatLevel = g.ToList().Select((c2) => c2.ThreatLevel).Sum(),
 				Name = g.Key.Identifier }).ToList();
 		}
 	}
