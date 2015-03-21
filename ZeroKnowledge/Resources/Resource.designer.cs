@@ -47,6 +47,9 @@ namespace ZeroKnowledge
 			// aapt resource value: 0x7f020000
 			public const int Icon = 2130837504;
 			
+			// aapt resource value: 0x7f020001
+			public const int spy = 2130837505;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -60,11 +63,17 @@ namespace ZeroKnowledge
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int myButton = 2131034112;
-			
 			// aapt resource value: 0x7f050001
-			public const int threatView = 2131034113;
+			public const int button_main = 2131034113;
+			
+			// aapt resource value: 0x7f050000
+			public const int login = 2131034112;
+			
+			// aapt resource value: 0x7f050002
+			public const int myButton = 2131034114;
+			
+			// aapt resource value: 0x7f050003
+			public const int threatView = 2131034115;
 			
 			static Id()
 			{
@@ -80,7 +89,10 @@ namespace ZeroKnowledge
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Main = 2130903040;
+			public const int Login = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int Main = 2130903041;
 			
 			static Layout()
 			{
@@ -97,6 +109,9 @@ namespace ZeroKnowledge
 			
 			// aapt resource value: 0x7f040001
 			public const int app_name = 2130968577;
+			
+			// aapt resource value: 0x7f040002
+			public const int button_main = 2130968578;
 			
 			// aapt resource value: 0x7f040000
 			public const int hello = 2130968576;

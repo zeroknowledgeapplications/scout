@@ -12,7 +12,7 @@ using Android.Webkit;
 
 namespace ZeroKnowledge
 {
-	[Activity (Label = "ZeroKnowledge", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Label = "ZeroKnowledge", MainLauncher = false, Icon = "@drawable/icon")]
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
