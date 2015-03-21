@@ -13,7 +13,7 @@ namespace ZeroKnowledge
 
 		public override string ToString ()
 		{
-			return Identifier;
+			return string.Format ("[Program: Identifier={0}, Name={1}, ProcessId={2}, UserId={3}, ThreatLevel={4}]", Identifier, Name, ProcessId, UserId, ThreatLevel);
 		}
 	}
 }

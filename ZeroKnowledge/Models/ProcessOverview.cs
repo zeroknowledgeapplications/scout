@@ -79,8 +79,8 @@ namespace ZeroKnowledge
 		{
 			try {
 				var info = _manager.GetApplicationInfo (identifier, PackageInfoFlags.MetaData);
-				return info.Name;
-			} catch (Exception e) {
+				return _manager.GetApplicationLabel(info);
+			} catch (Exception) {
 				return identifier;
 			}
 		}
