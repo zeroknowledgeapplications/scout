@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 using Android.App;
 using Android.Content;
@@ -32,20 +33,26 @@ namespace ZeroKnowledge
 
 			button.Click += delegate {
 
+				List<Connection> connections = ConnectionController.GetConnections (true);
+
+				ThreatClassifier t = new ThreatClassifier ();
+				t.Classify (connections);
+
+				List<Organization> organizations = OrganizationController.CreateFromConnections (connections);
+
 				//button.Text = string.Format ("{0} clicks!", count++);
 				foreach (Organization organization in organizations) {
-					Console.WriteLine(organization);
+					Console.WriteLine (organization);
 				}
-				foreach(Connection connection in connections) {
-					Console.WriteLine(string.Format("Connection = {0} Threat = {1}",
+				foreach (Connection connection in connections) {
+					Console.WriteLine (string.Format ("Connection = {0} Threat = {1}",
 						connection, connection.ThreatLevel
 					));
 				}
 
 				// Load page in WebView
-				web.LoadUrl("file:///android_asset/ThreatView.html");
+				web.LoadUrl ("file:///android_asset/ThreatView.html");
 			};
-
 		}
 	}
 }
