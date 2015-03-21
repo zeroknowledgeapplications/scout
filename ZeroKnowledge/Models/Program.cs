@@ -4,8 +4,8 @@ namespace ZeroKnowledge
 {
 	public class Program
 	{
-		string Identifier { get; set; }
-		string Name { get; set; }
+		public string Identifier { get; set; }
+		public string Name { get; set; }
 	}
 }
 

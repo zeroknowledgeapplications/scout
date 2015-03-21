@@ -16,8 +16,13 @@ namespace ZeroKnowledge
 			var plist = Process.GetProcesses ();
 
 			foreach (var p in plist) {
-				Debug.WriteLine (GetUser (p));
+				var uid = GetUser (p);
+				if (!programs.ContainsKey (uid))
+					programs.Add (uid, new Program (){ Identifier = uid, });
 			}
+
+			foreach (var p in programs.Values)
+				Debug.WriteLine (p.Identifier);
 
 			return null;
 		}
