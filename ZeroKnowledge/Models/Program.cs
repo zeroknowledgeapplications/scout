@@ -7,6 +7,7 @@ namespace ZeroKnowledge
 		public string Identifier { get; set; }
 		public string Name { get; set; }
 		public int ProcessId { get; set; }
+		public int UserId { get; set; }
 
 		public int ThreatLevel { get; set; }
 

@@ -21,43 +21,17 @@ namespace ZeroKnowledge
 
 		public static List<Connection> GetConnections(bool resolveDNS = false)
 		{
-			Dictionary<string, Program> programs = new Dictionary<string, Program> ();
 
-			var plist = Process.GetProcesses ();
 			var result = new List<Connection> ();
 
-			foreach (var p in plist) {
-				var uid = GetUser (p.Id);
+			var links = new Dictionary<string, Program> ();
+			ProcessOverview p = new ProcessOverview();
+			p.Update();
 
-				if (uid == null)
-					continue;
-
-				if (!programs.ContainsKey (uid))
-					programs.Add (uid, new Program (){ Identifier = uid, ProcessId = p.Id });
-			}
-
-			foreach (var p in programs.Values) {
-				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp", p.ProcessId))) {
-					con.Type = "tcp";
-					con.Program = p;
-					result.Add (con);
-				}
-				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp6", p.ProcessId))) {
-					con.Type = "tcp";
-					con.Program = p;
-					result.Add (con);
-				}
-				foreach (var con in ParseNetFile(String.Format("/proc/{0}/net/udp", p.ProcessId))){
-					con.Type = "udp";
-					con.Program = p;
-					result.Add (con);
-				}
-				foreach (var con in ParseNetFile(String.Format("/proc/{0}/net/udp6", p.ProcessId))){
-					con.Type = "udp";
-					con.Program = p;
-					result.Add (con);
-				}
-			}
+			result.AddRange (ParseNetFile ("/proc/net/tcp", "tcp", p));
+			result.AddRange (ParseNetFile ("/proc/net/tcp6", "tcp", p));
+			result.AddRange (ParseNetFile ("/proc/net/udp", "udp", p));
+			result.AddRange (ParseNetFile ("/proc/net/udp6", "udp", p));
 
 			if (resolveDNS)
 				result.ForEach ((c) => c.Resolve ());
@@ -65,13 +39,14 @@ namespace ZeroKnowledge
 			return result;
 		}
 
-		private static IEnumerable<Connection> ParseNetFile(string filename)
+		private static IEnumerable<Connection> ParseNetFile(string filename, string type, ProcessOverview overview)
 		{
 			FileInfo f = new FileInfo (filename);
 			if (!f.Exists)
 				yield break;
 
 			var reader = new StreamReader (f.OpenRead ());
+			var header = reader.ReadLine ();
 
 			while (!reader.EndOfStream) {
 				var line = reader.ReadLine ();
@@ -79,9 +54,7 @@ namespace ZeroKnowledge
 					continue;
 				var parts = Regex.Split (line, @"\s+");
 
-				if (parts [1] == "sl")
-					continue;
-
+				var uid = int.Parse (parts [8]);
 				var source = ParseHexEndpoint (parts [2]);
 				var dest = ParseHexEndpoint (parts [3]);
 				var packets = long.Parse (parts [5].Split(':')[1], System.Globalization.NumberStyles.HexNumber);
@@ -94,6 +67,8 @@ namespace ZeroKnowledge
 				c.Source = source;
 				c.Destination = dest;
 				c.Activity = packets;
+				c.Program = overview.FromId (uid);
+				c.Type = type;
 				yield return c;
 			}
 		}
@@ -113,9 +88,9 @@ namespace ZeroKnowledge
 				ip = new IPAddress (uint.Parse (ippart, System.Globalization.NumberStyles.HexNumber));
 			else {
 				// remove IPv6 that is just an extended IPv4. 
-				if (ippart.Substring (0, 24) == "0000000000000000FFFF0000") {
-					ippart = "00000000000000000000000000000000";
-				}
+				//if (ippart.Substring (0, 24) == "0000000000000000FFFF0000") {
+				///	ippart = "00000000000000000000000000000000";
+				//}
 
 				string representation = "";
 				for (int i = 0; i < 8; i++)
@@ -142,26 +117,7 @@ namespace ZeroKnowledge
 			return result;
 		}
 
-		public static string GetUser(int pid)
-		{
-			FileInfo f = new FileInfo (String.Format ("/proc/{0}/cmdline", pid));
-			if (!f.Exists)
-				return null;
 
-			var reader = new StreamReader (f.OpenRead ());
-			var uid = reader.ReadLine ();
-
-			// Filter system processes
-			if (uid != null && uid.Contains ("/"))
-				uid = null;
-
-			Regex r = new Regex (@"[^a-zA-Z0-9.-]");
-
-			if(uid != null)
-				uid = r.Replace	(uid, "");
-
-			return uid;
-		}
 	}
 }
 

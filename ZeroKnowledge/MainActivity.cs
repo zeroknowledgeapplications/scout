@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 using Android.App;
 using Android.Content;
@@ -30,8 +31,12 @@ namespace ZeroKnowledge
 			
 			button.Click += delegate {
 
+				List<Connection> connections = ConnectionController.GetConnections(true);
+
 				ThreatClassifier t = new ThreatClassifier();
-				t.Classify(ConnectionController.GetConnections(true));
+				t.Classify(connections);
+
+				List<Organization> organizations = OrganizationController.CreateFromConnections(connections);
 
 				//button.Text = string.Format ("{0} clicks!", count++);
 
