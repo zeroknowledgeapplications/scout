@@ -9,6 +9,11 @@ namespace ZeroKnowledge
 		public int ProcessId { get; set; }
 
 		public int ThreatLevel { get; set; }
+
+		public override string ToString ()
+		{
+			return Identifier;
+		}
 	}
 }
 

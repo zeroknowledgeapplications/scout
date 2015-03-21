@@ -152,6 +152,11 @@ namespace ZeroKnowledge
 			if (uid != null && uid.Contains ("/"))
 				uid = null;
 
+			Regex r = new Regex (@"[^a-zA-Z0-9.-]");
+
+			if(uid != null)
+				uid = r.Replace	(uid, "");
+
 			return uid;
 		}
 	}
