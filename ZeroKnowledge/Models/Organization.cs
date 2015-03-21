@@ -11,11 +11,14 @@ namespace ZeroKnowledge
 
 		public string Name { get; set; }
 
+		public List<Connection> Connections { get; set; }
+
 		public double ThreatLevel { get; set; }
 
-		public string CountryCode { get; set; }
-
-		public List<Connection> Connection { get; set; }
+		public override string ToString ()
+		{
+			return string.Format ("[Organization: Name={0}, Connections={1}, ThreatLevel={2}]", Name, Connections.Count, ThreatLevel);
+		}
 
 	}
 }

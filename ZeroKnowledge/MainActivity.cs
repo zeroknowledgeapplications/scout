@@ -39,6 +39,14 @@ namespace ZeroKnowledge
 				List<Organization> organizations = OrganizationController.CreateFromConnections(connections);
 
 				//button.Text = string.Format ("{0} clicks!", count++);
+				foreach (Organization organization in organizations) {
+					Console.WriteLine(organization);
+				}
+				foreach(Connection connection in connections) {
+					Console.WriteLine(string.Format("Connection = {0} Threat = {1}",
+						connection, connection.ThreatLevel
+					));
+				}
 
 				using(var s = new StreamReader(Assets.Open("ThreatView.html")))
 					web.LoadData(s.ReadToEnd(), "text/html", "utf8");
