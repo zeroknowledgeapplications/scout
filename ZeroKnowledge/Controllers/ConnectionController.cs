@@ -15,7 +15,8 @@ namespace ZeroKnowledge
 
 		private static IPAddress[] _skipSourceIps = new IPAddress[] {
 			IPAddress.Parse("0.0.0.0"),
-			IPAddress.Parse("127.0.0.1")
+			IPAddress.Parse("127.0.0.1"),
+			IPAddress.Parse("::")
 		};
 
 		public static List<Connection> GetConnections()
@@ -41,7 +42,6 @@ namespace ZeroKnowledge
 					con.Program = p;
 					result.Add (con);
 				}
-				/*
 				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp6", p.ProcessId))) {
 					con.Type = "tcp";
 					con.Program = p;
@@ -56,7 +56,7 @@ namespace ZeroKnowledge
 					con.Type = "udp";
 					con.Program = p;
 					result.Add (con);
-				}*/
+				}
 			}
 
 			return result;
@@ -87,9 +87,6 @@ namespace ZeroKnowledge
 					continue;
 				}
 
-				//Debug.WriteLine ("D:"+ dest);
-				//Debug.WriteLine ("S:"+ source);
-
 				var c = new Connection ();
 				c.Source = source;
 				c.Destination = dest;
@@ -103,8 +100,7 @@ namespace ZeroKnowledge
 			var c = new Connection ();
 			var ippart = description.Split (':') [0];
 
-			if ((BitConverter.IsLittleEndian && ippart.Length != 8) ||
-				(!BitConverter.IsLittleEndian && ippart.Length == 8))
+			if (!BitConverter.IsLittleEndian)
 			{
 				ippart = SwapHexEndianness (ippart);
 			}
@@ -113,6 +109,11 @@ namespace ZeroKnowledge
 			if (ippart.Length == 8)
 				ip = new IPAddress (uint.Parse (ippart, System.Globalization.NumberStyles.HexNumber));
 			else {
+				// remove IPv6 that is just an extended IPv4. 
+				if (ippart.Substring (0, 24) == "0000000000000000FFFF0000") {
+					ippart = "00000000000000000000000000000000";
+				}
+
 				string representation = "";
 				for (int i = 0; i < 8; i++)
 					representation += ippart.Substring (i * 4, 4) + ":";
