@@ -15,21 +15,6 @@ namespace ZeroKnowledge
 
 		public double ThreatLevel { get; set; }
 
-		#region Thread Dimensions
-
-		public double GoogleDestination() {
-			return 0.0;
-		}
-
-		public double FacebookDestination() {
-			return 0.0;
-		}
-
-		public double EndPointsHasAppName() {
-			return 0.0;
-		}
-			
-		#endregion
 	}
 }
 
