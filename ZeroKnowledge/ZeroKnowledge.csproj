@@ -53,6 +53,7 @@
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Classifiers\Perceptron.cs" />
+    <Compile Include="Classifiers\ThreatClassifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
