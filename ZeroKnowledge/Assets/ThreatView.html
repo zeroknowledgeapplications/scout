@@ -274,7 +274,6 @@
         window.UI = (function(){
             var _randomDuration = function(animation) {
                 var duration = Math.floor(1+(Math.random()*10));
-                console.log(duration);
                 animation.setAttribute('dur', duration + 's');
                 animation.beginElement();
                 setTimeout(_randomDuration, duration*1000, animation);
@@ -326,13 +325,6 @@
                 }
             };
         })();
-
-        setTimeout(function(){
-            window.UI.setThreatLevel(2, 0.5);
-            window.UI.setThreatLevel(4, 0.75);
-            window.UI.setThreatLevel(6, 0.33);
-        }, 2000);
-
     });
 </script>
         
