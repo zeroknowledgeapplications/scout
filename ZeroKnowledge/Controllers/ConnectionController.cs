@@ -87,7 +87,7 @@ namespace ZeroKnowledge
 			if (ippart.Length == 8)
 				ip = new IPAddress (uint.Parse (ippart, System.Globalization.NumberStyles.HexNumber));
 			else {
-				// remove IPv6 that is just an extended IPv4. 
+				// convert IPv6 that is just an extended IPv4 to correct type. 
 				if (ippart.Substring (0, 24) == "0000000000000000FFFF0000") {
 					ip = new IPAddress (uint.Parse (ippart.Substring (24), System.Globalization.NumberStyles.HexNumber));
 				} else {
