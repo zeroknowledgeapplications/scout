@@ -12,6 +12,8 @@ namespace ZeroKnowledge
 		DateTime ConnectionStart { get; set; }
 
 		string HostName { get; set; }
+
+
 	}
 }
 
