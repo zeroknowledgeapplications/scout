@@ -24,7 +24,7 @@ namespace ZeroKnowledge
 				var inputs = _predictors.Select ((p) => p (connection)).ToArray();
 				connection.ThreatLevel = perceptron.Predict (inputs);
 
-				Debug.WriteLine(string.Format("Connection = {0} Threat = {1}",
+				Console.WriteLine(string.Format("Connection = {0} Threat = {1}",
 					connection, connection.ThreatLevel
 				));
 			}
