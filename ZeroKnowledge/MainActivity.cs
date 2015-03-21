@@ -33,7 +33,7 @@ namespace ZeroKnowledge
 
 			button.Click += delegate {
 
-				List<Connection> connections = ConnectionController.GetConnections (true);
+				List<Connection> connections = ConnectionController.GetConnections (manager);
 
 				ThreatClassifier t = new ThreatClassifier ();
 				t.Classify (connections);
