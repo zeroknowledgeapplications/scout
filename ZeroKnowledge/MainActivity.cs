@@ -23,6 +23,7 @@ namespace ZeroKnowledge
 
 			WebView web = FindViewById<WebView> (Resource.Id.threatView);
 			web.Settings.JavaScriptEnabled = true;
+			web.SetWebChromeClient (new WebChromeClient ());
 
 			// Get our button from the layout resource,
 			// and attach an event to it
@@ -30,12 +31,9 @@ namespace ZeroKnowledge
 			var manager = ApplicationContext.PackageManager;
 
 			button.Click += delegate {
-				ThreatClassifier t = new ThreatClassifier();
-				t.Classify(ConnectionController.GetConnections(manager));
-				//button.Text = string.Format ("{0} clicks!", count++);
 
-				using(var s = new StreamReader(Assets.Open("ThreatView.html")))
-					web.LoadData(s.ReadToEnd(), "text/html", "utf8");
+				// Load page in WebView
+				web.LoadUrl("file:///android_asset/ThreatView.html");
 			};
 
 		}
