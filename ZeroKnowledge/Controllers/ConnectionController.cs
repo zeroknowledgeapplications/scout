@@ -29,24 +29,24 @@ namespace ZeroKnowledge
 					programs.Add (uid, new Program (){ Identifier = uid, ProcessId = p.Id });
 			}
 
-			foreach (var p in plist) {
-				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp", p.Id))) {
+			foreach (var p in programs.Values) {
+				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp", p.ProcessId))) {
 					con.Type = "tcp";
 					con.Program = p;
 					result.Add (con);
 				}
 
-				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp6", p.Id))) {
+				foreach (var con in ParseNetFile (String.Format("/proc/{0}/net/tcp6", p.ProcessId))) {
 					con.Type = "tcp";
 					con.Program = p;
 					result.Add (con);
 				}
-				foreach (var con in ParseNetFile(String.Format("/proc/{0}/net/udp", p.Id))){
+				foreach (var con in ParseNetFile(String.Format("/proc/{0}/net/udp", p.ProcessId))){
 					con.Type = "udp";
 					con.Program = p;
 					result.Add (con);
 				}
-				foreach (var con in ParseNetFile(String.Format("/proc/{0}/net/udp6", p.Id))){
+				foreach (var con in ParseNetFile(String.Format("/proc/{0}/net/udp6", p.ProcessId))){
 					con.Type = "udp";
 					con.Program = p;
 					result.Add (con);

@@ -20,7 +20,7 @@ namespace ZeroKnowledge
 			foreach (Connection connection in connections) {
 				connection.ThreatLevel = perceptrion.Predict (
 					new double[]{
-						(() => { 
+						/*(() => { 
 							return 0.0;
 						})(),
 						(() => { 
@@ -28,7 +28,7 @@ namespace ZeroKnowledge
 						})(),
 						(() => { 
 							return 1.0;
-						})(),
+						})(),*/
 					}
 				);
 				Debug.WriteLine(string.Format("Connection = {0},{1} Thread = {3}",
