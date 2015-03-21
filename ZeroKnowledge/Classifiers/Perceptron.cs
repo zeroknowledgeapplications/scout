@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ZeroKnowledge
 {
@@ -16,6 +12,12 @@ namespace ZeroKnowledge
 		{
 			Dimensions = dimensions;
 			Weights = new double[dimensions + 1];
+		}
+
+		public Perceptron(double[] weights)
+		{
+			Dimensions = weights.Length-1;
+			Weights = weights;
 		}
 
 		public override string ToString()

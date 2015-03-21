@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ZeroKnowledge
 {
@@ -10,9 +11,11 @@ namespace ZeroKnowledge
 
 		public string Name { get; set; }
 
-		public int TheadLevel { get; set; }
+		public double ThreatLevel { get; set; }
 
 		public string CountryCode { get; set; }
+
+		public List<Connection> Connection { get; set; }
 
 	}
 }
