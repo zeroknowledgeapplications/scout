@@ -332,13 +332,19 @@
                  * @param {int} count the number of organisations [0-8] to display
                  */
                 setNumberOfOrganisations: function(count) {
-                    for (var i = 0; i < 8; i++) {
-                        var display = (count <= i) ? 'none' : 'block';
+					if (count >= 8) {
+						return;
+					}
+                    for (var i = count; i < 8; i++) {
+                        document.getElementById('line_' + i).setAttribute('stroke', 'white');
+                        document.getElementById('organisation_' + i).setAttribute('stroke', 'white');
+                        document.getElementById('bubble_' + i).setAttribute('stroke', 'white');
+                        document.getElementById('text_' + i).setAttribute('stroke', 'white');
 
-                        document.getElementById('line_' + i).style.display = display;
-                        document.getElementById('organisation_' + i).style.display = display;
-                        document.getElementById('bubble_' + i).style.display = display;
-                        document.getElementById('text_' + i).style.display = display;
+                        document.getElementById('line_' + i).setAttribute('fill', 'white');
+                        document.getElementById('organisation_' + i).setAttribute('fill', 'white');
+                        document.getElementById('bubble_' + i).setAttribute('fill', 'white');
+                        document.getElementById('text_' + i).setAttribute('fill', 'white');
                     };
                 },
             };
