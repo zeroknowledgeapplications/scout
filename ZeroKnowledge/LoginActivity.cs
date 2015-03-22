@@ -1,14 +1,10 @@
 using System;
-using System.IO;
-using System.Collections.Generic;
 
 using Android.App;
 using Android.Content;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using Android.Webkit;
 
 namespace ZeroKnowledge
 {
@@ -29,6 +25,10 @@ namespace ZeroKnowledge
 			Button button = FindViewById<Button> (Resource.Id.button_main);
 			button.Click += delegate {
 				StartActivity(typeof(MainActivity));
+				//var name = "nl.hardlopenmetevy.app";
+				//var packageURI = Android.Net.Uri.Parse(string.Format("package:{0}",name));
+				//var uninstallIntent = new Intent(Intent.ActionDelete, packageURI);
+				//StartActivity(uninstallIntent);
 			};
 		}
 	}
