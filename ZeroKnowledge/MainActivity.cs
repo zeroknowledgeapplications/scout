@@ -45,7 +45,7 @@ namespace ZeroKnowledge
 						break;
 					}
 					// Draw organisation
-					SetLabel (i, organization.Name);
+					SetLabel (i, organization.Name.Split('.').Last());
 					SetThreatLevel (i, Math.Min (1.0, organization.ThreatLevel / 5));
 					SetNumberOfConnections (i, organization.Connections.Count);
 
