@@ -12,7 +12,7 @@ using Android.Webkit;
 
 namespace ZeroKnowledge
 {
-	[Activity (Label = "ZeroKnowledge", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Label = "ZeroKnowledge", MainLauncher = false, Icon = "@drawable/spy")]
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
@@ -25,34 +25,48 @@ namespace ZeroKnowledge
 			WebView web = FindViewById<WebView> (Resource.Id.threatView);
 			web.Settings.JavaScriptEnabled = true;
 			web.SetWebChromeClient (new WebChromeClient ());
+			// Load page in WebView
+			web.LoadUrl ("file:///android_asset/ThreatView.html");
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button> (Resource.Id.myButton);
+			// Start main detection process
 			var manager = ApplicationContext.PackageManager;
+			List<Connection> connections = ConnectionController.GetConnections (manager);
+			ThreatClassifier t = new ThreatClassifier ();
+			t.Classify (connections);
+			List<Organization> organizations = OrganizationController.CreateFromConnections (connections);
 
-			button.Click += delegate {
+			int i = 0;
+			foreach (Organization organization in organizations) {
+				if(i > 7)
+					break;
 
-				List<Connection> connections = ConnectionController.GetConnections (manager);
+				SetLabel(i, organization.Name);
+				SetThreatLevel(i, Math.Min(1.0, organization.ThreatLevel / 5));
+				SetNumberOfConnections(i, organization.Connections.Count);
 
-				ThreatClassifier t = new ThreatClassifier ();
-				t.Classify (connections);
+				i++;
+			}
 
-				List<Organization> organizations = OrganizationController.CreateFromConnections (connections);
+			for(;i <= 7; i++)
+				SetLabel(i, "");
+		}
 
-				//button.Text = string.Format ("{0} clicks!", count++);
-				foreach (Organization organization in organizations) {
-					Console.WriteLine (organization);
-				}
-				foreach (Connection connection in connections) {
-					Console.WriteLine (string.Format ("Connection = {0} Threat = {1}",
-						connection, connection.ThreatLevel
-					));
-				}
+		private void SetLabel(int id, string label)
+		{
+			WebView web = FindViewById<WebView> (Resource.Id.threatView);
+			web.EvaluateJavascript (String.Format("window.UI.setLabel({0}, {1});", id, label), null);
+		}
 
-				// Load page in WebView
-				web.LoadUrl ("file:///android_asset/ThreatView.html");
-			};
+		private void SetNumberOfConnections(int id, int connections)
+		{
+			WebView web = FindViewById<WebView> (Resource.Id.threatView);
+			web.EvaluateJavascript (String.Format("window.UI.setConnections({0}, {1});", id, connections), null);
+		}
+
+		private void SetThreatLevel(int id, double threat)
+		{
+			WebView web = FindViewById<WebView> (Resource.Id.threatView);
+			web.EvaluateJavascript (String.Format("window.UI.setThreat({0}, {1});", id, threat), null);
 		}
 	}
 }

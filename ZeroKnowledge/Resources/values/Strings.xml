@@ -2,4 +2,5 @@
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
 	<string name="app_name">ZeroKnowledge</string>
+	<string name="button_main">Bring these spies to me!</string>
 </resources>
