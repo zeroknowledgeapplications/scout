@@ -289,11 +289,11 @@
                     var line = document.getElementById('line_' + id);
                     var bubble = document.getElementById('bubble_' + id);
 
-                    /* Multiply connections by five, limit to 0-25 range */
-                    count = Math.min(50, Math.max((count*5), 0));
+                    /* Clip to [0-25] */
+                    count = Math.floor(Math.min(25, Math.max(count, 0)));
 
-                    line.setAttribute('stroke-width', count);
-                    bubble.setAttribute('r', 32+count/2);
+                    line.setAttribute('stroke-width', 1+count*5);
+                    bubble.setAttribute('r', 2+count*7);
                 },
 
                 /**
