@@ -41,9 +41,10 @@ namespace ZeroKnowledge
 
 				int i = 0;
 				foreach (Organization organization in organizations.OrderBy((o) => -o.ThreatLevel)) {
-					if (i > 7)
+					if (i > 7) {
 						break;
-
+					}
+					// Draw organisation
 					SetLabel (i, organization.Name);
 					SetThreatLevel (i, Math.Min (1.0, organization.ThreatLevel / 5));
 					SetNumberOfConnections (i, organization.Connections.Count);
@@ -52,9 +53,6 @@ namespace ZeroKnowledge
 				}
 				// Hide the unneeded organisations
 				SetNumberOfOrganisations(organizations.Count);
-
-				for (; i <= 7; i++)
-					SetLabel (i, "");
 			};
 			timer.Start ();
 		}
@@ -62,7 +60,7 @@ namespace ZeroKnowledge
 		private void SetNumberOfOrganisations(int count)
 		{
 			WebView web = FindViewById<WebView> (Resource.Id.threatView);
-			RunOnUiThread(() => web.LoadUrl (String.Format("javascript:window.UI.setNumberofConnections({0});", count), null));
+			RunOnUiThread(() => web.LoadUrl (String.Format("javascript:window.UI.setNumberOfOrganisations({0});", count), null));
 		}
 
 		private void SetLabel(int id, string label)

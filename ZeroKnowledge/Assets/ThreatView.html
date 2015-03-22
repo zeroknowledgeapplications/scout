@@ -336,15 +336,13 @@
 						return;
 					}
                     for (var i = count; i < 8; i++) {
-                        document.getElementById('line_' + i).setAttribute('stroke', 'white');
                         document.getElementById('organisation_' + i).setAttribute('stroke', 'white');
-                        document.getElementById('bubble_' + i).setAttribute('stroke', 'white');
-                        document.getElementById('text_' + i).setAttribute('stroke', 'white');
-
-                        document.getElementById('line_' + i).setAttribute('fill', 'white');
                         document.getElementById('organisation_' + i).setAttribute('fill', 'white');
+                        document.getElementById('line_' + i).setAttribute('stroke', 'white');
+
+                        document.getElementById('bubble_' + i).setAttribute('stroke', 'white');
                         document.getElementById('bubble_' + i).setAttribute('fill', 'white');
-                        document.getElementById('text_' + i).setAttribute('fill', 'white');
+                        setLabel(i, "");
                     };
                 },
             };
