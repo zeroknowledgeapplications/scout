@@ -325,7 +325,22 @@
                     line.setAttribute('stroke', rgb);
                     bubble.setAttribute('stroke', rgb);
                     bubble.setAttribute('fill', rgb);
-                }
+                },
+
+                /**
+                 * Hides superfluous organisations that are unused
+                 * @param {int} count the number of organisations [0-8] to display
+                 */
+                setNumberOfOrganisations: function(count) {
+                    for (var i = 0; i < 8; i++) {
+                        var display = (count <= i) ? 'none' : 'block';
+
+                        document.getElementById('line_' + i).style.display = display;
+                        document.getElementById('organisation_' + i).style.display = display;
+                        document.getElementById('bubble_' + i).style.display = display;
+                        document.getElementById('text_' + i).style.display = display;
+                    };
+                },
             };
         })();
     });

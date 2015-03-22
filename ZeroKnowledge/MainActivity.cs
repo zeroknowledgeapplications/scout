@@ -50,11 +50,19 @@ namespace ZeroKnowledge
 
 					i++;
 				}
+				// Hide the unneeded organisations
+				SetNumberOfOrganisations(organizations.Count);
 
 				for (; i <= 7; i++)
 					SetLabel (i, "");
 			};
 			timer.Start ();
+		}
+
+		private void SetNumberOfOrganisations(int count)
+		{
+			WebView web = FindViewById<WebView> (Resource.Id.threatView);
+			RunOnUiThread(() => web.LoadUrl (String.Format("javascript:window.UI.setNumberofConnections({0});", count), null));
 		}
 
 		private void SetLabel(int id, string label)
