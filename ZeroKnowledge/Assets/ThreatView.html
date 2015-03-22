@@ -314,6 +314,7 @@
                 setThreatLevel: function(id, level){
                     var line = document.getElementById('line_' + id);
                     var organisation = document.getElementById('organisation_' + id);
+                    var bubble = document.getElementById('bubble_' + id);
 
                     /* Calculate threat level */
                     R = Math.floor(255 * level);
@@ -322,6 +323,8 @@
 
                     organisation.setAttribute('fill', rgb);
                     line.setAttribute('stroke', rgb);
+                    bubble.setAttribute('stroke', rgb);
+                    bubble.setAttribute('fill', rgb);
                 }
             };
         })();
