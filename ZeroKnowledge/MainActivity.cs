@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 using Android.App;
 using Android.Content;
@@ -39,7 +40,7 @@ namespace ZeroKnowledge
 				List<Organization> organizations = OrganizationController.CreateFromConnections (connections);
 
 				int i = 0;
-				foreach (Organization organization in organizations) {
+				foreach (Organization organization in organizations.OrderBy((o) => -o.ThreatLevel)) {
 					if (i > 7)
 						break;
 
