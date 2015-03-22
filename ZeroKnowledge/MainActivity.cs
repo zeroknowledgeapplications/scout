@@ -13,7 +13,7 @@ using Android.Webkit;
 
 namespace ZeroKnowledge
 {
-	[Activity (Label = "ZeroKnowledge", MainLauncher = false, Icon = "@drawable/spy")]
+	[Activity (Label = "Scout", MainLauncher = false, Icon = "@drawable/spy")]
 	public class MainActivity : Activity
 	{
 		protected override void OnCreate (Bundle bundle)
